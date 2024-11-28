@@ -1,0 +1,16 @@
+dart0\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/tasks.c
+dart0\tasks.o: D:\tools\robo-electro-control\keil5\ARM\ARMCC\Bin\..\include\stdlib.h
+dart0\tasks.o: D:\tools\robo-electro-control\keil5\ARM\ARMCC\Bin\..\include\string.h
+dart0\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/FreeRTOS.h
+dart0\tasks.o: D:\tools\robo-electro-control\keil5\ARM\ARMCC\Bin\..\include\stddef.h
+dart0\tasks.o: D:\tools\robo-electro-control\keil5\ARM\ARMCC\Bin\..\include\stdint.h
+dart0\tasks.o: ../Core/Inc/FreeRTOSConfig.h
+dart0\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/projdefs.h
+dart0\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/portable.h
+dart0\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/deprecated_definitions.h
+dart0\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM3/portmacro.h
+dart0\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/mpu_wrappers.h
+dart0\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h
+dart0\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h
+dart0\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/timers.h
+dart0\tasks.o: ../Middlewares/Third_Party/FreeRTOS/Source/include/stack_macros.h
