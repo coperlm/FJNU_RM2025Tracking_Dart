@@ -70,6 +70,10 @@ uint8_t receiveData[7];
 
 static uint32_t pwmVal = 500;//输出于涵道电机
 
+static uint8_t state = 0;//现状态的状态
+
+static uint8_t x[100] , y[100] , fps[100]; 
+
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
 osThreadId ducted_motorHandle;
@@ -77,6 +81,7 @@ osThreadId gyroscopeHandle;
 osThreadId servo_motorHandle;
 osThreadId connecterHandle;
 osThreadId counterHandle;
+osThreadId To_openMVHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -97,6 +102,7 @@ void gyroscope_read(void const * argument);
 void servo_motor_control(void const * argument);
 void connect_read(void const * argument);
 void counter_func(void const * argument);
+void To_openMV_func(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -144,7 +150,7 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* definition and creation of defaultTask */
-  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
+  osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 64);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* definition and creation of ducted_motor */
@@ -164,8 +170,12 @@ void MX_FREERTOS_Init(void) {
   connecterHandle = osThreadCreate(osThread(connecter), NULL);
 
   /* definition and creation of counter */
-  osThreadDef(counter, counter_func, osPriorityIdle, 0, 192);
+  osThreadDef(counter, counter_func, osPriorityIdle, 0, 128);
   counterHandle = osThreadCreate(osThread(counter), NULL);
+
+  /* definition and creation of To_openMV */
+  osThreadDef(To_openMV, To_openMV_func, osPriorityIdle, 0, 64);
+  To_openMVHandle = osThreadCreate(osThread(To_openMV), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -291,6 +301,15 @@ void connect_read(void const * argument)
   {
     HAL_UART_Receive(&huart1,receiveData,5,100);
     osDelay(1);
+    if( receiveData[0] == 'r' ){
+      state = 1;
+    }else if( receiveData[0] == 'R' ){
+      state = 2;
+    }else if( receiveData[0] == 'm' ){
+      state = 3;
+    }else{
+      state = 0;
+    }
   }
   /* USER CODE END connect_read */
 }
@@ -343,11 +362,11 @@ void counter_func(void const * argument)
     left = right = 0;
     mid = 0;
     
-    if( receiveData[0] == 'r' ){
+    if( state == 1 ){
       checker();
       left = right = 0;
     }
-    else if( receiveData[0] == 'R' ){
+    else if( state == 2 ){
       left = right = 0;
     }
     else{
@@ -387,6 +406,29 @@ void counter_func(void const * argument)
     osDelay(1);
   }
   /* USER CODE END counter_func */
+}
+
+/* USER CODE BEGIN Header_To_openMV_func */
+/**
+* @brief Function implementing the To_openMV thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_To_openMV_func */
+void To_openMV_func(void const * argument)
+{
+  /* USER CODE BEGIN To_openMV_func */
+  /* Infinite loop */
+  for(;;)
+  {
+    if( state == 2 ){
+      HAL_UART_Receive(&huart1,fps,5,HAL_MAX_DELAY);
+      HAL_UART_Receive(&huart1,x,5,HAL_MAX_DELAY);
+      HAL_UART_Receive(&huart1,y,5,HAL_MAX_DELAY);//不知道数据几位哇
+    }
+    osDelay(1);
+  }
+  /* USER CODE END To_openMV_func */
 }
 
 /* Private application code --------------------------------------------------*/
