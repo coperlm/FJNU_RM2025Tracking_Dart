@@ -21,20 +21,28 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.18.0
 Dialog DLL:      TCM.DLL V1.27.0.0
  
 <h2>Project:</h2>
-C:\Users\coper\Desktop\dart construct\dart0\MDK-ARM\dart0.uvprojx
-Project File Date:  11/27/2024
+C:\Users\coper\Desktop\FJNU_RM2025Tracking_Dart\MDK-ARM\dart0.uvprojx
+Project File Date:  11/29/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 4 (build 422)', folder: 'D:\tools\robo-electro-control\keil5\ARM\ARMCC\Bin'
 Build target 'dart0'
 compiling freertos.c...
+../Core/Src/freertos.c(375): warning:  #68-D: integer conversion resulted in a change of sign
+          left = 20 , right = -20;
+../Core/Src/freertos.c(377): warning:  #68-D: integer conversion resulted in a change of sign
+          left = -20 , right = -20;
+../Core/Src/freertos.c(377): warning:  #68-D: integer conversion resulted in a change of sign
+          left = -20 , right = -20;
+../Core/Src/freertos.c(381): warning:  #68-D: integer conversion resulted in a change of sign
+          left = -20 , right = 20;
 ../Core/Src/freertos.c(68): warning:  #550-D: variable "ducked"  was set but never used
   static uint8_t ducked;
-../Core/Src/freertos.c: 1 warning, 0 errors
+../Core/Src/freertos.c: 5 warnings, 0 errors
 linking...
-Program Size: Code=25370 RO-data=3862 RW-data=280 ZI-data=5696  
+Program Size: Code=25714 RO-data=3898 RW-data=284 ZI-data=5788  
 FromELF: creating hex file...
-"dart0\dart0.axf" - 0 Error(s), 1 Warning(s).
+"dart0\dart0.axf" - 0 Error(s), 5 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -52,7 +60,7 @@ Package Vendor: ARM
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.0.1
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

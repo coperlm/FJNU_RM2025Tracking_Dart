@@ -72,7 +72,7 @@ static uint32_t pwmVal = 500;//输出于涵道电机
 
 static uint8_t state = 0;//现状态的状态
 
-static uint8_t x[100] , y[100] , fps[100]; 
+static uint8_t x , y;
 
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
@@ -369,6 +369,19 @@ void counter_func(void const * argument)
     else if( state == 2 ){
       left = right = 0;
     }
+    
+    else if( state == 3 ){
+      if( x > 80 && y > 60 ){
+        left = 20 , right = -20;
+      }else if( x < 80 && y > 60 ){
+        left = -20 , right = -20;
+      }else if( x > 80 && y < 60 ){
+        left = 20 , right = 20;
+      }else{
+        left = -20 , right = 20;
+      }
+      
+    }
     else{
     //初版划分权重3:2:1
     tempp = 30;
@@ -415,16 +428,19 @@ void counter_func(void const * argument)
 * @retval None
 */
 /* USER CODE END Header_To_openMV_func */
+
+static uint8_t mesg[20];
 void To_openMV_func(void const * argument)
 {
   /* USER CODE BEGIN To_openMV_func */
   /* Infinite loop */
   for(;;)
   {
-    if( state == 2 ){
-      HAL_UART_Receive(&huart1,fps,5,HAL_MAX_DELAY);
-      HAL_UART_Receive(&huart1,x,5,HAL_MAX_DELAY);
-      HAL_UART_Receive(&huart1,y,5,HAL_MAX_DELAY);//不知道数据几位哇
+    if( state == 3 ){
+      HAL_UART_Receive(&huart2,mesg,10,1);
+      x = mesg[0] * 100 + mesg[1] * 10 + mesg[2];
+      y = mesg[3] * 100 + mesg[4] * 10 + mesg[5];
+      
     }
     osDelay(1);
   }
