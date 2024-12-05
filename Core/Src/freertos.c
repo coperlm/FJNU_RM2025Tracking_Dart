@@ -33,6 +33,7 @@
 #include "usart.h"
 #include <math.h>
 #include "dmp_self.h"
+#include "pid.h"
 
 /* USER CODE END Includes */
 
@@ -268,15 +269,20 @@ void gyroscope_read(void const * argument)
 * @param argument: Not used
 * @retval None
 */
+PID survePID;
 /* USER CODE END Header_servo_motor_control */
 void servo_motor_control(void const * argument)
 {
   /* USER CODE BEGIN servo_motor_control */
+  PID_Init(&survePID,1,0,0,100,100);
+  float left_output , right_output;
   /* Infinite loop */
   for(;;)
   {
-    __HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,surve_left);
-    __HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_2,surve_right);
+    PID_Calc(&survePID,(float)(surve_left ),left_output );
+    PID_Calc(&survePID,(float)(surve_right),right_output);
+    __HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,(uint8_t)(left_output ));
+    __HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_2,(uint8_t)(right_output));
     osDelay(1);
   }
   /* USER CODE END servo_motor_control */

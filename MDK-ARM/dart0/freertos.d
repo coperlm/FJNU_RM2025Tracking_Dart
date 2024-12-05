@@ -52,3 +52,4 @@ dart0\freertos.o: ./MyCode/inv_mpu_dmp_motion_driver.h
 dart0\freertos.o: ../Core/Inc/usart.h
 dart0\freertos.o: D:\tools\robo-electro-control\keil5\ARM\ARMCC\Bin\..\include\math.h
 dart0\freertos.o: ./MyCode/dmp_self.h
+dart0\freertos.o: ./MyCode/pid.h

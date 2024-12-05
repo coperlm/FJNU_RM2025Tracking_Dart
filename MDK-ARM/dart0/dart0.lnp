@@ -14,6 +14,7 @@
 "dart0\stm32f1xx_it.o"
 "dart0\stm32f1xx_hal_msp.o"
 "dart0\stm32f1xx_hal_timebase_tim.o"
+"dart0\pid.o"
 "dart0\stm32f1xx_hal_gpio_ex.o"
 "dart0\stm32f1xx_hal.o"
 "dart0\stm32f1xx_hal_rcc.o"

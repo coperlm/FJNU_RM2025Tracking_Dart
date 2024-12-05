@@ -37,15 +37,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-/*
-typedef struct
-{
-  float kp , ki , kd;
-  float error , lastError;
-  float intergral , maxIntergral;
-  float output , maxOutput;
-}PID;
-*/
+
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -77,36 +69,6 @@ void MX_FREERTOS_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-/*
-static void PID_Init( PID *pid , float p , float i , float d , float maxI , float maxOut )
-{
-  pid->kp = p;
-  pid->ki = i;
-  pid->kd = d;
-  pid->maxIntergral = maxI;
-  pid->maxOutput = maxOut;
-}
-
-static void PID_Calc( PID *pid , float reference , float feedback )
-{
-  pid->lastError = pid->error;
-  pid->error = reference - feedback;
-  
-  float dout = ( pid->error - pid->lastError ) * pid->kd;
-  
-  float pout = pid->error * pid->kp;
-  
-  pid->intergral += pid->error * pid->ki;
-  
-  if( pid->intergral > pid->maxIntergral ) pid->intergral = pid->maxIntergral;
-  else if( pid->intergral < -pid->maxIntergral ) pid->intergral = -pid->maxIntergral;
-  
-  pid->output = pout + dout + pid->intergral;
-  
-  if( pid->output > pid->maxOutput ) pid->output = pid->maxOutput;
-  else if( pid->output < -pid->maxOutput ) pid->output = -pid->maxOutput;
-}
-*/
 
 /* USER CODE END 0 */
 
