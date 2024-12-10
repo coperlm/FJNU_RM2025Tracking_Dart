@@ -274,7 +274,7 @@ PID survePID;
 void servo_motor_control(void const * argument)
 {
   /* USER CODE BEGIN servo_motor_control */
-  PID_Init(&survePID,1,0,0,100,100);
+  PID_Init(&survePID,10,0.01,0.01,100,100);
   float left_output , right_output;
   /* Infinite loop */
   for(;;)
