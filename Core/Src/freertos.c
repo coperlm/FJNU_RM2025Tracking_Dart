@@ -67,10 +67,11 @@
 static uint8_t surve_left , surve_right;//舵机数据的pwm，范围50-250
 static uint32_t ducked;//涵道电机的pwm，范围500-1000
 static uint8_t receiveData[20];//串口一收到的数据（来源于蓝牙串口）
-static uint8_t mesg[20];//串口二收到的数据（来源于视觉）
+static uint8_t mesg[22];//串口二收到的数据（来源于视觉）
 static uint8_t x , y;//解包出来的视觉坐标（x最大160，y最大120）
 static uint32_t pwmVal = 500;//输出于涵道电机（现阶段正在使用的，仅在测试阶段）
 static uint8_t state;//模式（见README）
+static uint8_t slb , srb;
 
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
@@ -274,15 +275,29 @@ PID survePID;
 void servo_motor_control(void const * argument)
 {
   /* USER CODE BEGIN servo_motor_control */
-  PID_Init(&survePID,10,0.01,0.01,100,100);
-  float left_output , right_output;
+  /*
+  PID survePID_left;
+  PID survePID_right;
+  float left_output, right_output;
+  PID_Init(&survePID_left, 10, 0.01, 0.01, 100, 100);
+  PID_Init(&survePID_right, 10, 0.01, 0.01, 100, 100);*/
   /* Infinite loop */
   for(;;)
   {
-    PID_Calc(&survePID,(float)(surve_left ),left_output );
-    PID_Calc(&survePID,(float)(surve_right),right_output);
-    __HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_1,(uint8_t)(left_output ));
-    __HAL_TIM_SET_COMPARE(&htim2,TIM_CHANNEL_2,(uint8_t)(right_output));
+    // 假设您有左、右的反馈值feedback_left和feedback_right
+    /*
+    PID_Calc(&survePID_left, surve_left, slb);
+    PID_Calc(&survePID_right, surve_right, srb);
+    
+    left_output = survePID_left.output;
+    right_output = survePID_right.output;
+
+    __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, (uint8_t)(left_output));
+    __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, (uint8_t)(right_output));
+    slb = left_output , srb = right_output;*/
+    
+    __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, surve_left );
+    __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_2, surve_right);
     osDelay(1);
   }
   /* USER CODE END servo_motor_control */
@@ -331,6 +346,7 @@ void checker_forge( int num ){
   return ;
 }
 void checker(){
+  
   checker_forge( 90 );
   checker_forge(-90 );
   
@@ -339,7 +355,10 @@ void checker(){
   
   checker_forge( 30 );
   checker_forge(-30 );
-
+/*
+  for(int i = -90;i <= 90;i ++){
+    checker_forge( i );
+  }*/
   receiveData[0] = 'R';
   state = 2;
   ducked = 500;
@@ -354,7 +373,7 @@ void counter_func(void const * argument)
   static uint8_t left , right;//范围±90，单位为度，控制舵机角度
   static uint8_t mid;//范围0-500，
   static uint8_t tempp;
-  state = 4;//初始化状态值，默认为静默模式
+  state = 3;//初始化状态值，默认为静默模式
   
   while( pitch < 0.00001 && pitch > -0.00001 );//读不到数据就不开始
   for(;;)
@@ -373,8 +392,8 @@ void counter_func(void const * argument)
     }else if( state == 2 ){//静默模式，完成后自动转化到静默模式
       left = right = 0;
     }else if( state == 3 ){//纯视觉模式
-      left = (x-80)/4;//将160和120分别映射到±20
-      right = (y-60)/3;
+      left = (x-80);//将160和120分别映射到
+      right = (y-60);
     }
     else if( state == 4 ){//纯陀螺仪模式
       //初版划分权重3:2:1
@@ -418,18 +437,35 @@ void counter_func(void const * argument)
 * @param argument: Not used
 * @retval None
 */
+int bef = 5;
+int starti;
+int xx , yy;
 /* USER CODE END Header_To_openMV_func */
-
 void To_openMV_func(void const * argument)
 {
   /* USER CODE BEGIN To_openMV_func */
+  receiveData[0] = 'm';
   /* Infinite loop */
   for(;;)
   {
     if( state == 3 ){
-      HAL_UART_Receive(&huart2,mesg,10,1);
-      x = mesg[0] * 100 + mesg[1] * 10 + mesg[2];//下一版本可以基于概率保证信息的正确性
-      y = mesg[3] * 100 + mesg[4] * 10 + mesg[5];
+      
+      HAL_UART_Receive(&huart2,mesg,20,HAL_MAX_DELAY);
+      for(int i = 0;i < 15;i ++){
+        if( mesg[i]=='a' && mesg[i+1]=='b' && mesg[i+8] == 'c' ){
+          starti = i+2;
+          break;
+        }else starti = 0;
+      }
+      if( starti != 0 ){
+        bef = starti;/*
+        x = mesg[bef+0] * 100 + mesg[bef+1] * 10 + mesg[bef+2];
+        y = mesg[bef+3] * 100 + mesg[bef+4] * 10 + mesg[bef+5];*/
+        xx = (mesg[starti+0]-'0')*100 + (mesg[starti+1]-'0')*10 + (mesg[starti+2]-'0');
+        yy = (mesg[starti+3]-'0')*100 + (mesg[starti+4]-'0')*10 + (mesg[starti+5]-'0');
+        x = xx , y = yy;
+      }
+      //mesg[0] = mesg[1] = mesg[2] = mesg[3] = mesg[4] = mesg[5] = mesg[6] = mesg[7] = mesg[8] = mesg[9] = mesg[10] = mesg[11] = mesg[12] = mesg[13] = 0;
     }
     osDelay(1);
   }

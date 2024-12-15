@@ -445,6 +445,16 @@
               <FilePath>.\MyCode\dmp_self.c</FilePath>
             </File>
             <File>
+              <FileName>pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\MyCode\pid.c</FilePath>
+            </File>
+            <File>
+              <FileName>pid.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\MyCode\pid.h</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Core/Src/main.c</FilePath>
@@ -588,16 +598,6 @@
                   </Cads>
                 </FileArmAds>
               </FileOption>
-            </File>
-            <File>
-              <FileName>pid.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\MyCode\pid.c</FilePath>
-            </File>
-            <File>
-              <FileName>pid.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\MyCode\pid.h</FilePath>
             </File>
           </Files>
         </Group>

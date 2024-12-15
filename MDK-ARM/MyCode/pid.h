@@ -1,18 +1,19 @@
 #ifndef PID_H
 #define PID_H
 
-// PID控制器结构体定义
 typedef struct {
-  float kp, ki, kd;
-  float error, lastError;
-  float integral, maxIntegral;
-  float output, maxOutput;
+    float kp;           // 比例系数
+    float ki;           // 积分系数
+    float kd;           // 微分系数
+    float error;        // 当前误差
+    float lastError;    // 上一次误差
+    float integral;     // 积分项
+    float maxIntegral;  // 积分最大值
+    float maxOutput;    // 输出最大值
+    float output;       // 输出值
 } PID;
 
-// PID控制器初始化函数原型
 void PID_Init(PID *pid, float p, float i, float d, float maxI, float maxOut);
-
-// PID控制器计算函数原型
 void PID_Calc(PID *pid, float reference, float feedback);
 
-#endif
+#endif // PID_H

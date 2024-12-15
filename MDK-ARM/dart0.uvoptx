@@ -146,104 +146,7 @@
           <Name>-U-O142 -O2254 -S0 -C0 -A0 -N00("ARM CoreSight SW-DP") -D00(1BA01477) -L00(0) -TO18 -TC10000000 -TP21 -TDS8004 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC800 -FN1 -FF0STM32F10x_128.FLM -FS08000000 -FL08000 -FP0($$Device:STM32F103C6$Flash\STM32F10x_128.FLM)</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint>
-        <Bp>
-          <Number>0</Number>
-          <Type>0</Type>
-          <LineNumber>377</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134228910</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>../Core/Src/freertos.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\dart0\../Core/Src/freertos.c\377</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>377</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134228990</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>../Core/Src/freertos.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\dart0\../Core/Src/freertos.c\377</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>383</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134229010</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>../Core/Src/freertos.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\dart0\../Core/Src/freertos.c\383</Expression>
-        </Bp>
-        <Bp>
-          <Number>3</Number>
-          <Type>0</Type>
-          <LineNumber>389</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134229042</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>../Core/Src/freertos.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\dart0\../Core/Src/freertos.c\389</Expression>
-        </Bp>
-        <Bp>
-          <Number>4</Number>
-          <Type>0</Type>
-          <LineNumber>395</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134229074</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>../Core/Src/freertos.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\dart0\../Core/Src/freertos.c\395</Expression>
-        </Bp>
-        <Bp>
-          <Number>5</Number>
-          <Type>0</Type>
-          <LineNumber>401</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134229084</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>../Core/Src/freertos.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\dart0\../Core/Src/freertos.c\401</Expression>
-        </Bp>
-      </Breakpoint>
+      <Breakpoint/>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -429,6 +332,21 @@
           <count>36</count>
           <WinNumber>1</WinNumber>
           <ItemText>mesg</ItemText>
+        </Ww>
+        <Ww>
+          <count>37</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>right_output</ItemText>
+        </Ww>
+        <Ww>
+          <count>38</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>xx</ItemText>
+        </Ww>
+        <Ww>
+          <count>39</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>yy</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -663,6 +581,30 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
+      <PathWithFileName>.\MyCode\pid.c</PathWithFileName>
+      <FilenameWithoutPath>pid.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>2</GroupNumber>
+      <FileNumber>14</FileNumber>
+      <FileType>5</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\MyCode\pid.h</PathWithFileName>
+      <FilenameWithoutPath>pid.h</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>2</GroupNumber>
+      <FileNumber>15</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
       <PathWithFileName>../Core/Src/main.c</PathWithFileName>
       <FilenameWithoutPath>main.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
@@ -670,7 +612,7 @@
     </File>
     <File>
       <GroupNumber>2</GroupNumber>
-      <FileNumber>14</FileNumber>
+      <FileNumber>16</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -682,7 +624,7 @@
     </File>
     <File>
       <GroupNumber>2</GroupNumber>
-      <FileNumber>15</FileNumber>
+      <FileNumber>17</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -694,7 +636,7 @@
     </File>
     <File>
       <GroupNumber>2</GroupNumber>
-      <FileNumber>16</FileNumber>
+      <FileNumber>18</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -706,7 +648,7 @@
     </File>
     <File>
       <GroupNumber>2</GroupNumber>
-      <FileNumber>17</FileNumber>
+      <FileNumber>19</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -718,7 +660,7 @@
     </File>
     <File>
       <GroupNumber>2</GroupNumber>
-      <FileNumber>18</FileNumber>
+      <FileNumber>20</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -730,7 +672,7 @@
     </File>
     <File>
       <GroupNumber>2</GroupNumber>
-      <FileNumber>19</FileNumber>
+      <FileNumber>21</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -742,7 +684,7 @@
     </File>
     <File>
       <GroupNumber>2</GroupNumber>
-      <FileNumber>20</FileNumber>
+      <FileNumber>22</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -754,37 +696,13 @@
     </File>
     <File>
       <GroupNumber>2</GroupNumber>
-      <FileNumber>21</FileNumber>
+      <FileNumber>23</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>../Core/Src/stm32f1xx_hal_timebase_tim.c</PathWithFileName>
       <FilenameWithoutPath>stm32f1xx_hal_timebase_tim.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>22</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\MyCode\pid.c</PathWithFileName>
-      <FilenameWithoutPath>pid.c</FilenameWithoutPath>
-      <RteFlg>0</RteFlg>
-      <bShared>0</bShared>
-    </File>
-    <File>
-      <GroupNumber>2</GroupNumber>
-      <FileNumber>23</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <bDave2>0</bDave2>
-      <PathWithFileName>.\MyCode\pid.h</PathWithFileName>
-      <FilenameWithoutPath>pid.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
