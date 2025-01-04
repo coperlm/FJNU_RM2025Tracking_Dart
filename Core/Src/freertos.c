@@ -67,7 +67,7 @@
 static uint8_t surve_left , surve_right;//舵机数据的pwm，范围50-250
 static uint32_t ducked;//涵道电机的pwm，范围500-1000
 static uint8_t receiveData[20];//串口一收到的数据（来源于蓝牙串口）
-static uint8_t mesg[22];//串口二收到的数据（来源于视觉）
+static uint8_t mesg[32];//串口二收到的数据（来源于视觉）
 static uint8_t x , y;//解包出来的视觉坐标（x最大160，y最大120）
 static uint32_t pwmVal = 500;//输出于涵道电机（现阶段正在使用的，仅在测试阶段）
 static uint8_t state;//模式（见README）
@@ -210,22 +210,27 @@ void delay(unsigned int k)
 void ducted_motor_control(void const * argument)
 {
   /* USER CODE BEGIN ducted_motor_control */
-  pwmVal=500;
+  //HAL_TIM_PWM_Start(&htim3,TIM_CHANNEL_1);
+  pwmVal=600;
   ducked = pwmVal;
+  /*
+  __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_1, 600 );
+  HAL_Delay( 10000 );
+  __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_1, 500 );
+  HAL_Delay( 2000 );*/
   /* Infinite loop */
-  for(;;)
+  while( 1 )
   {
-    if(ducked<700){
-      static int i=0;
-      if(i<10)
-      {i++;}
-      else if(i>=10)
-      {i=0;ducked+=1;}   
-    //0.05;
-    }else{
-      pwmVal=700;
+    /*
+    if(pwmVal<700)
+    {
+      pwmVal ++;
     }
-    __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_1, ducked );
+    else{
+      pwmVal=500;
+    }*/
+    __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_1, pwmVal );
+//    __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_1, ducked );
     HAL_Delay(1);
     //osDelay(1);
   }
@@ -437,9 +442,7 @@ void counter_func(void const * argument)
 * @param argument: Not used
 * @retval None
 */
-int bef = 5;
-int starti;
-int xx , yy;
+uint8_t x_temp , y_temp , check_temp;
 /* USER CODE END Header_To_openMV_func */
 void To_openMV_func(void const * argument)
 {
@@ -450,22 +453,23 @@ void To_openMV_func(void const * argument)
   {
     if( state == 3 ){
       
-      HAL_UART_Receive(&huart2,mesg,20,HAL_MAX_DELAY);
-      for(int i = 0;i < 15;i ++){
-        if( mesg[i]=='a' && mesg[i+1]=='b' && mesg[i+8] == 'c' ){
-          starti = i+2;
+      HAL_UART_Receive(&huart2,mesg,12,HAL_MAX_DELAY);
+      
+      for(int i = 0;i < 10;i ++){
+        x_temp = (int)( mesg[i] ) , y_temp = (int)( mesg[i+1] ) , check_temp = (int)( mesg[i+2] );
+        if( (x_temp+y_temp)%121==check_temp ){
+          x = (int)( mesg[i+0] );
+          y = (int)( mesg[i+1] );
           break;
-        }else starti = 0;
+        }
       }
-      if( starti != 0 ){
-        bef = starti;/*
-        x = mesg[bef+0] * 100 + mesg[bef+1] * 10 + mesg[bef+2];
-        y = mesg[bef+3] * 100 + mesg[bef+4] * 10 + mesg[bef+5];*/
-        xx = (mesg[starti+0]-'0')*100 + (mesg[starti+1]-'0')*10 + (mesg[starti+2]-'0');
-        yy = (mesg[starti+3]-'0')*100 + (mesg[starti+4]-'0')*10 + (mesg[starti+5]-'0');
-        x = xx , y = yy;
-      }
+        /*
+        xx = (mesg[starti+0]-'0')*16 + (mesg[starti+1]-'0');
+        yy = (mesg[starti+2]-'0')*16 + (mesg[starti+3]-'0');
+        x = xx , y = yy;*/
+        
       //mesg[0] = mesg[1] = mesg[2] = mesg[3] = mesg[4] = mesg[5] = mesg[6] = mesg[7] = mesg[8] = mesg[9] = mesg[10] = mesg[11] = mesg[12] = mesg[13] = 0;
+      
     }
     osDelay(1);
   }
