@@ -369,12 +369,45 @@ void checker(){
   ducked = 500;
   return ;
 }
+
+float Kp_pitch = 0.5 , Ki_pitch = 0.1 , Kd_pitch = 0.2;
+float Kp_yaw = 0.5 , Ki_yaw = 0.1 , Kd_yaw = 0.2;
+float k_alpha = 0.1; //机翼角度系数
+float K_T = 50.0; //基础推力
+float K_y = 0.05; //垂直补偿增益
+
+float f = 1000.0; //摄像头焦距（假设值）
+
+
+// 计算反正切 atan(x) 的近似值（基于有理函数逼近）
+float my_atan(float x) {
+    if (x < 0) {
+        return -my_atan(-x);  // 利用奇函数特性处理负数
+    }
+    if (x > 1.0) {
+        return 1.570795 - my_atan(1.0 / x);  // 利用 atan(x) = π/2 - atan(1/x) 处理 x > 1
+    }
+
+    // 在 [0, 1] 区间内使用多项式近似
+    // 系数来源: 《Numerical Recipes in C》优化公式
+    const float a1 = 0.99997726;
+    const float a3 = -0.33262347;
+    const float a5 = 0.19354346;
+    const float a7 = -0.11643287;
+    const float a9 = 0.05265332;
+    const float a11 = -0.01172120;
+
+    float x_sq = x * x;
+    float numerator = x * (a1 + x_sq * (a3 + x_sq * (a5 + x_sq * (a7 + x_sq * (a9 + x_sq * a11)))));
+    return numerator;
+}
+
 /* USER CODE END Header_counter_func */
 void counter_func(void const * argument)
 {
   /* USER CODE BEGIN counter_func */
   /* Infinite loop */
-  static float derta_pitch , derta_yaw , derta_row;
+  static float derta_pitch , derta_yaw , derta_roll;
   static uint8_t left , right;//范围±90，单位为度，控制舵机角度
   static uint8_t mid;//范围0-500，
   static uint8_t tempp;
@@ -389,7 +422,7 @@ void counter_func(void const * argument)
     //初始化目标坐标
     derta_pitch = pitch;
     derta_yaw = yaw;
-    derta_row = roll;
+    derta_roll = roll;
     
     if( state == 1 ){//校准模式
       checker();
@@ -397,13 +430,15 @@ void counter_func(void const * argument)
     }else if( state == 2 ){//静默模式，完成后自动转化到静默模式
       left = right = 0;
     }else if( state == 3 ){//纯视觉模式
-      left = (x-80);//将160和120分别映射到
-      right = (y-60);
+      derta_roll = (x-40)*2;
+      derta_pitch = (y-30)*2;
+      left = derta_pitch*2+derta_roll*0.8;
+      right = derta_pitch*2+derta_roll*0.8;
     }
     else if( state == 4 ){//纯陀螺仪模式
       //初版划分权重3:2:1
       tempp = 30;
-      if( derta_row > 0 ){//roll轴最重要，我觉得
+      if( derta_roll > 0 ){//roll轴最重要，我觉得
         left += tempp , right -= tempp;//初版直接拉满，然后随便分配一下~
       }else{
         left -= tempp , right += tempp;
@@ -422,7 +457,22 @@ void counter_func(void const * argument)
       }
       mid = 100;//不知道给多少，先给一点吧~
     }else{//默认模式（混合模式）
-      //还没写（
+    //计算目标角度偏差
+      float delta_psi = my_atan(x / f);//这个还要细调
+      float delta_theta = my_atan(y / f);
+      
+    //PID计算力矩（简化版，无积分项）
+      float tau_theta = Kp_pitch * (delta_theta - pitch) - Kd_pitch * gyroy;
+      float tau_psi = Kp_yaw * (delta_psi - yaw) - Kd_yaw * gyroz;
+        
+    //机翼角度计算
+      float alpha_L = k_alpha * (tau_theta + tau_psi);
+      float alpha_R = k_alpha * (tau_theta - tau_psi);
+
+    //推力计算（假设目标在y轴正方向需增加推力）
+      float thrust = K_T * (1 + K_y * y);
+      left = (int)(alpha_L) , right = (int)(alpha_R);
+      mid = (int)(thrust);
     }
     //将-90°-+90°映射到60-240之间（舵机）
     surve_left = left + 150;
